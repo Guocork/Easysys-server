@@ -16,6 +16,9 @@ mod router {
 mod db_access{
     pub mod LoginQuery;
 }
+mod utils {
+    pub mod jwt;
+}
 use router::router::crate_router;
 
 #[tokio::main]
