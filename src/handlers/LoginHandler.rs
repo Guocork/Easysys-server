@@ -11,25 +11,19 @@ use crate::utils::jwt::{self, Claims};
 pub async fn login(
     State(pool): State<Pool<MySql>>,
     Json(user): Json<User>
-) -> Json<LoginRes> {
+) -> Json<LoginRes>  {
 
     let db_user = LoginQuery::get_logininfo(&pool, user.username()).await;
 
-    
-    let msg = if db_user.password() == user.password() {
-        String::from("密码正确")
+    if db_user.password() == user.password() {
+        let token = encode(
+            &Header::default(), 
+            &Claims::new(format!("username:{},password:{}",db_user.username(),db_user.password())), 
+        &EncodingKey::from_secret("secret".as_ref())).unwrap();
+        let res = LoginRes::new(StatusCode::OK, String::from("密码正确"), Some(token));
+        return Json(res)
     } else {
-        String::from("密码错误")  //这里就要返回了
+        let res = LoginRes::new(StatusCode::BAD_REQUEST, String::from("密码错误"), None);
+        return Json(res)
     };
-    
-    let sub = format!("username:{},password:{}",db_user.username(),db_user.password());
-
-    let claims = Claims::new(sub);
-
-    let token = encode(&Header::default(), &claims, &EncodingKey::from_secret("secret".as_ref())).unwrap();
-
-    let res = LoginRes::new(StatusCode::OK, msg, Some(token));
-
-    Json(res)
-    
 }
