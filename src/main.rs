@@ -2,7 +2,7 @@ mod api{
     pub mod LoginApi;
 }
 mod models {
-    pub mod login;
+    pub mod responsedata;
 }
 mod handlers {
     pub mod LoginHandler;

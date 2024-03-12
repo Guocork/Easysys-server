@@ -1,4 +1,4 @@
-use crate::models::login::User;
+use crate::handlers::LoginHandler::User;
 use sqlx::{ MySql, Pool};
 
 
