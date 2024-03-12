@@ -11,8 +11,17 @@ pub async fn crate_router() -> Router{
 
     let pool = establish_connection().await;
 
+    // 登录接口路由 /login
+    let login_routes = Router::new().route("/login", post(LoginHandler::login));
+
+    // 用户接口路由 /api/user
+    let user_routes = Router::new().route("/user", get(|| async {"hello"}));
+
+    // api路由总路径 /api/...
+    let api_routes = Router::new().nest("/api", user_routes);
+
     let app = Router::new()
-        .route("/login", post(LoginHandler::login))
+        .merge(login_routes).merge(api_routes)
         .with_state(pool);
 
     app

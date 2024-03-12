@@ -1,0 +1,3 @@
+struct AppState {
+    state: AtomicUsize,
+}

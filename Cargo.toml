@@ -14,3 +14,5 @@ sqlx = { version = "0.7.3", features = [ "runtime-tokio", "tls-native-tls","mysq
 serde = { version = "1.0.197" , features = ["derive"]}
 dotenv = "0.15.0"
 jsonwebtoken = "9.2.0"
+tower = { version = "0.4.13", features = ["full"] }
+tower-http = { version = "0.5.2", features = ["fs", "trace", "compression-br"] }

@@ -18,6 +18,11 @@ mod db_access{
 }
 mod utils {
     pub mod jwt;
+    pub mod interceptor;
+    pub mod middleware;
+}
+mod errors {
+    pub mod error;
 }
 use router::router::crate_router;
 
